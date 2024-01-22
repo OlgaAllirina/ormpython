@@ -44,12 +44,8 @@ class Stock(Base):
     id_book = sq.Column(sq.Integer, sq.ForeignKey("book.id"), nullable=False)
     id_shop = sq.Column(sq.Integer, sq.ForeignKey("shop.id"), nullable=False)
     count = sq.Column(sq.Integer, nullable=False)
-
     shop = relationship(Shop, backref="stock1")
     book = relationship(Book, backref="stocks")
-
-    def __str__(self):
-        return f'{self.count}'
 
 
 class Sale(Base):
@@ -64,7 +60,7 @@ class Sale(Base):
     stock = relationship(Stock, backref="stocks")
 
     def __str__(self):
-        return f'| {self.price} | {self.date_sale}'
+        return f'| {self.price * self.count} | {self.date_sale}'
 
 
 def create_table(engine):
