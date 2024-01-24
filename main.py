@@ -17,9 +17,10 @@ create_table(engine)
 # заполним таблицу данными
 
 publisher1 = Publisher(name="Татьяна")
-publisher2 = Publisher(name="Карен")
 b1 = Book(title="Светочи тьмы", publisher=publisher1)
 b2 = Book(title="Цербер-хранитель", publisher=publisher1)
+
+publisher2 = Publisher(name="Карен")
 b3 = Book(title="Прикосновения теней", publisher=publisher2)
 b4 = Book(title="В оковах льда", publisher=publisher2)
 
@@ -37,14 +38,16 @@ sale4 = Sale(price="347", stock=stock2, date_sale="10.03.2008", count="9")
 
 Session = sessionmaker(bind=engine)
 session = Session()
-session.add_all([publisher1, publisher2, shop1, shop2, stock1, stock2, stock3, stock4, sale1, sale2, sale3, sale4])
+# зарегистрируем изменения
+session.add_all([publisher1, shop1, shop2, stock1, stock2, sale1, sale2, b1, b2, publisher2, stock3, stock4, sale3,
+                 sale4, b3, b4])
 session.commit()
-print(publisher2)
+# обязательный параметр ввода
 name_or_id = input("Введите имя или id автора: ")
+# объединяем таблицы и выводим необходимую информацию
 if name_or_id.isdigit():
-    q = session.query(Book, Shop, Sale).select_from(Stock).join(Book).join(Publisher).join(Shop).join(Sale).filter(
+    q = session.query(Book, Shop, Sale).select_from(Book).join(Stock).join(Publisher).join(Shop).join(Sale).filter(
         Publisher.id == name_or_id)
-    print(q)
     for bo, sh, sa in q.all():
         print(bo, sh, sa)
 else:
@@ -53,8 +56,5 @@ else:
     print(q)
     for bo, sh, sa in q.all():
         print(bo, sh, sa)
-# "название книги | название магазина, в котором была куплена эта книга | стоимость покупки | дата покупки"
-
-
 session.close()
 
