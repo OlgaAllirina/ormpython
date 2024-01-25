@@ -3,9 +3,9 @@ import psycopg2
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from model import create_table, Stock, Sale, Shop, Book, Publisher
 
-sql_sys = "postgresql"
-login = "postgres"
-password = "PWonlin3879"
+sql_sys = ""
+login = ""
+password = ""
 host = "5432"
 sql_base = "thirstwork_db"
 DSN = f'{sql_sys}://{login}:{password}@localhost:{host}/{sql_base}'
