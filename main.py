@@ -7,7 +7,7 @@ sql_sys = ""
 login = ""
 password = ""
 host = "5432"
-sql_base = "thirstwork_db"
+sql_base = ""
 DSN = f'{sql_sys}://{login}:{password}@localhost:{host}/{sql_base}'
 
 engine = sqlalchemy.create_engine(DSN)
